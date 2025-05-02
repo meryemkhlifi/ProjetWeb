@@ -1,0 +1,63 @@
+/* Reusable components like buttons, cards, etc. */
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 40px;
+    color: #fff;
+    background-image: linear-gradient(45deg, #df4881, #c430d7);
+    border-radius: 30px;
+    font-size: 14px;
+    border-top-right-radius: 0;
+}
+
+.btn:hover {
+    background-image: linear-gradient(45deg, #c430d7, #df4881);
+    transition: 0.5s;
+}
+
+.btn:active {
+    transform: scale(0.9);
+}
+
+.card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 18px;
+}
+
+.card h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.card p {
+    font-size: 18px;
+    color: #666;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+a {
+    text-decoration: none; /* Removes underline */
+    outline: none; /* Removes the blue focus outline */
+}
+
+a:focus {
+    outline: none; /* Ensures no outline appears when the link is focused */
+}
+
+button {
+    outline: none; /* Removes the blue focus outline for buttons */
+}
+
+button:focus {
+    outline: none; /* Ensures no outline appears when the button is focused */
+}

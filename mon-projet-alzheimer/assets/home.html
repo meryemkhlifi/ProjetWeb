@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odin:Home</title>
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/layout.css">
+    <link rel="stylesheet" href="../styles/components.css">
+    <link rel="stylesheet" href="../styles/pages/login.css">
+    <link rel="stylesheet" href="../styles/animations.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Enhanced styles with original colors */
+        * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: white;
+            min-height: 100vh;
+        }
+
+        .hero {
+            width: 100%;
+            min-width: 100vh;
+            background-size: cover;
+            background-position: center;
+            padding: 10px 10%;
+            overflow: hidden;
+        }
+
+        nav {
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;   
+        }
+
+        .logo {
+            width: 140px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logn-btn {
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .logn-btn:hover {
+            color: #c430d7;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 14px 40px;
+            color: #fff;
+            background-image: linear-gradient(45deg, #df4881, #c430d7);
+            border-radius: 30px;   
+            font-size: 14px;
+            border-top-right-radius: 0;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-image: linear-gradient(45deg, #c430d7, #df4881);
+            transition: 0.5s;
+        }
+
+        .btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Welcome section */
+        .welcome-section {
+            text-align: center;
+            margin: 50px auto 30px;
+            max-width: 800px;
+            padding: 0 20px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background-image: linear-gradient(45deg, #df4881, #c430d7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+
+        .welcome-section p {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        /* Cards with icons */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin: 50px auto;
+            max-width: 1000px;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background-image: linear-gradient(45deg, #df4881, #c430d7);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background-image: linear-gradient(45deg, #df4881, #c430d7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .card p {
+            font-size: 18px;
+            color: #666;
+        }
+
+        /* Enhanced login modal */
+        .hidden {
+            display: none !important;
+        }
+
+        .login-form {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            width: 400px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .form-container h2 {
+            margin-bottom: 25px;
+            font-size: 26px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .form-container label {
+            display: block;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-container input:focus {
+            border-color: #c430d7;
+            outline: none;
+        }
+
+        .form-container .btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        .signup-link {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .signup-link a {
+            color: #c430d7;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .signup-link a:hover {
+            color: #df4881;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            color: #666;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+            
+            .user-nav {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 10px;
+            }
+            
+            .btn {
+                padding: 10px 25px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <nav>
+            <img src="../images/logo.png" class="logo" alt="Odin Health Logo">
+            <div class="user-nav">
+                <a href="profile.html">
+                    <i class="fas fa-user-circle"></i> Welcome, <span id="user-name">User</span>
+                </a>
+                <a href="javascript:void(0)" class="btn" id="switch-account">
+                    <i class="fas fa-sync-alt"></i> Switch Account
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h1>Welcome to Your Health Dashboard</h1>
+        <p>Manage your medications, prescriptions, appointments, and emergency contacts all in one place. 
+           Stay on top of your health needs with Odin's simple, effective tools.</p>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="cards-container">
+        <div class="card">
+            <a href="medications.html">
+                <div class="card-icon">
+                    <i class="fas fa-pills"></i>
+                </div>
+                <h3>Medications</h3>
+                <p>Track and manage your medications</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="prescriptions.html">
+                <div class="card-icon">
+                    <i class="fas fa-prescription"></i>
+                </div>
+                <h3>Prescriptions</h3>
+                <p>Add new ones whenever you need</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="calendar.html">
+                <div class="card-icon">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <h3>Calendar</h3>
+                <p>Manage your appointments easily</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="emergency.html">
+                <div class="card-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <h3>Emergency Contacts</h3>
+                <p>You're not alone</p>
+            </a>
+        </div>
+    </div>
+
+    <!-- Login Form Modal -->
+    <div id="login-form" class="login-form hidden">
+        <div class="form-container">
+            <button id="close-login" class="close-button">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Log In</h2>
+            <form>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-sign-in-alt"></i> Log In
+                </button>
+            </form>
+            <p class="signup-link">
+                Don't have an account? <a href="index.html">Sign up now</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Odin Health. All rights reserved.</p>
+    </footer>
+
+    <!-- JS -->
+    <script src="../scripts/buttons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Display user name from session
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get user name from wherever you stored it after login
+            const userName = localStorage.getItem('userName') || 'User';
+            document.getElementById('user-name').textContent = userName;
+
+            // Handle switch account click
+            document.getElementById('switch-account').addEventListener('click', () => {
+                document.getElementById('login-form').classList.remove('hidden');
+            });
+
+            // Close login form
+            document.getElementById('close-login').addEventListener('click', () => {
+                document.getElementById('login-form').classList.add('hidden');
+            });
+            
+            // Close modal when clicking outside
+            document.getElementById('login-form').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('login-form')) {
+                    document.getElementById('login-form').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+    <script src="../scripts/medications.js"></script>
+    <script src="../scripts/calendar.js"></script>
+    <script src="../scripts/emergency.js"></script>
+    <script src="../scripts/prescriptions.js"></script>   
+</body>
+</html>

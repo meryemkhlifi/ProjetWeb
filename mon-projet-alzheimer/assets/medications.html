@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medications</title>
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .emergency-contact {
+            background-color: #fff8f8;
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .emergency-icon {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        /* Card styling */
+        .card {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #eee;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        
+        .card-title {
+            font-weight: 600;
+        }
+        
+        /* Medication item styling */
+        .medication-item {
+            border-left: 4px solid #4a6bff;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        
+        .medication-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .medication-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .medication-dose {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        .medication-time {
+            background-color: #f0f4ff;
+            color: #4a6bff;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        
+        .medication-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        /* Create different colors for med types */
+        .medication-item.primary {
+            border-left-color: #4a6bff;
+        }
+        
+        .medication-item.secondary {
+            border-left-color: #6c757d;
+        }
+        
+        .medication-item.urgent {
+            border-left-color: #ff6b6b;
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state i {
+            font-size: 48px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        
+        /* Pill shape badges */
+        .badge-pill {
+            border-radius: 50rem;
+            padding: 5px 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">
+                <img src="../images/logo.png" alt="Logo" width="120">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="medications.html">Medications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prescriptions.html">Prescriptions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="emergency.html">Emergency Contacts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calendar.html">Calendar</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="profile.html" class="btn btn-outline-primary">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">My Medications</h1>
+
+        <!-- Form to Add Medication -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Add New Medication</h5>
+                <form id="medication-form">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="med-name" class="form-label">Medication Name</label>
+                            <input type="text" id="med-name" class="form-control" placeholder="Medication Name" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="med-dose" class="form-label">Dose</label>
+                            <input type="number" id="med-dose" class="form-control" placeholder="mg" step="0.01" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="med-time" class="form-label">Time</label>
+                            <input type="time" id="med-time" class="form-control" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="med-frequency" class="form-label">Frequency</label>
+                            <select id="med-frequency" class="form-select">
+                                <option value="">Frequency</option>
+                                <option value="Once daily">Once daily</option>
+                                <option value="Twice daily">Twice daily</option>
+                                <option value="Three times daily">Three times daily</option>
+                                <option value="As needed">As needed</option>
+                                <option value="Every 12 hours">Every 12 hours</option>
+                                <option value="Every 8 hours">Every 8 hours</option>
+                                <option value="Every 6 hours">Every 6 hours</option>
+                                <option value="Weekly">Weekly</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="med-type" class="form-label">Type</label>
+                            <select id="med-type" class="form-select">
+                                <option value="pill">Pill</option>
+                                <option value="liquid">Liquid</option>
+                                <option value="injection">Injection</option>
+                                <option value="inhaler">Inhaler</option>
+                                <option value="topical">Topical</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label for="med-instructions" class="form-label">Special Instructions</label>
+                            <textarea id="med-instructions" class="form-control" rows="2" placeholder="Special instructions"></textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Medication
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Medications Tabs -->
+        <ul class="nav nav-tabs mb-3" id="medicationTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-meds" type="button" role="tab" aria-controls="all-meds" aria-selected="true">All Medications</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="today-tab" data-bs-toggle="tab" data-bs-target="#today-meds" type="button" role="tab" aria-controls="today-meds" aria-selected="false">Today</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming-meds" type="button" role="tab" aria-controls="upcoming-meds" aria-selected="false">Upcoming</button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="medicationTabContent">
+            <!-- All Medications Tab -->
+            <div class="tab-pane fade show active" id="all-meds" role="tabpanel" aria-labelledby="all-tab">
+                <!-- Search and Filter -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Search medications..." id="search-meds">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-md-end">
+                            <select class="form-select w-auto" id="sort-meds">
+                                <option value="name">Sort by Name</option>
+                                <option value="newest">Newest First</option>
+                                <option value="time">Next Dose Time</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medications List -->
+                <div id="medications-list" class="mt-3">
+                    <!-- Example medication items - these would be generated by JS -->
+                    <div class="medication-item primary d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="d-flex align-items-center">
+                                <span class="medication-name">Aspirin</span>
+                                <span class="badge bg-primary ms-2 badge-pill">Pain Relief</span>
+                            </div>
+                            <div class="medication-dose">81mg - Once daily</div>
+                            <div class="mt-1">
+                                <span class="medication-time"><i class="far fa-clock me-1"></i>8:00 AM</span>
+                                <small class="text-muted ms-2">Take with food</small>
+                            </div>
+                        </div>
+                        <div class="medication-actions">
+                            <button class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" title="Mark as taken">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="medication-item secondary d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="d-flex align-items-center">
+                                <span class="medication-name">Metformin</span>
+                                <span class="badge bg-info ms-2 badge-pill">Diabetes</span>
+                            </div>
+                            <div class="medication-dose">500mg - Twice daily</div>
+                            <div class="mt-1">
+                                <span class="medication-time"><i class="far fa-clock me-1"></i>9:00 AM, 9:00 PM</span>
+                                <small class="text-muted ms-2">Take with meals</small>
+                            </div>
+                        </div>
+                        <div class="medication-actions">
+                            <button class="btn btn-sm btn-outline-success" data-bs-toggle="tooltip" title="Mark as taken">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Medications Tab -->
+            <div class="tab-pane fade" id="today-meds" role="tabpanel" aria-labelledby="today-tab">
+                <div class="timeline-today mt-3">
+                    <!-- This content would be populated by JS -->
+                    <h5 class="mb-3">Today's Schedule</h5>
+                    <p class="text-muted">Your medications for today will appear here.</p>
+                </div>
+            </div>
+
+            <!-- Upcoming Medications Tab -->
+            <div class="tab-pane fade" id="upcoming-meds" role="tabpanel" aria-labelledby="upcoming-tab">
+                <div class="upcoming-doses mt-3">
+                    <!-- This content would be populated by JS -->
+                    <h5 class="mb-3">Upcoming Doses</h5>
+                    <p class="text-muted">Your upcoming medication doses will appear here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="../scripts/medications.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+        
+        // Handle form submission
+        document.getElementById('medication-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('med-name').value;
+            const dose = document.getElementById('med-dose').value;
+            const time = document.getElementById('med-time').value;
+            const frequency = document.getElementById('med-frequency').value;
+            const instructions = document.getElementById('med-instructions').value;
+            const type = document.getElementById('med-type').value;
+
+            addMedication(name, dose, time, frequency, instructions, type);
+
+            // Clear the form
+            this.reset();
+        });
+        
+        // Search functionality 
+        document.getElementById('search-meds').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const medicationItems = document.querySelectorAll('.medication-item');
+            
+            medicationItems.forEach(item => {
+                const medicationName = item.querySelector('.medication-name').textContent.toLowerCase();
+                if (medicationName.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+</antArtifact>

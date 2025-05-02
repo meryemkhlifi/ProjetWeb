@@ -1,0 +1,21 @@
+/* Layout styles for navigation, hero section, etc. */
+.hero {
+    width: 100%;
+    min-width: 100vh;
+    background-image: url(); /* Use relative path */
+    background-size: cover;
+    background-position: center;
+    padding: 10px 10%;
+    overflow: hidden;
+}
+
+nav {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 140px;
+}

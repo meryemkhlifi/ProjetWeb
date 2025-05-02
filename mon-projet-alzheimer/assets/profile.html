@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .profile-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #f0f0f0;
+        }
+        
+        .btn-edit {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            color: #555;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+        
+        .form-control:disabled {
+            background-color: #f9f9f9;
+            opacity: 0.8;
+        }
+        
+        .alert-box {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        .sidebar-link {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: #f0f4ff;
+            color: #4a6bff;
+        }
+        
+        .sidebar-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4a6bff;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .stat-label {
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #4a6bff;
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            background-color: white !important;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .logout-btn {
+            color: #dc3545;
+        }
+        
+        .logout-btn:hover {
+            background-color: #fff8f8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">
+                <img src="../images/logo.png" alt="Logo" width="120">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="medications.html">Medications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="prescriptions.html">Prescriptions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="emergency.html">Emergency Contacts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="calendar.html">Calendar</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="profile.html" class="btn btn-outline-primary active">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3">
+                <div class="profile-section">
+                    <div class="text-center mb-4">
+                        <img src="../images/avatar-placeholder.png" alt="Profile Picture" class="profile-avatar mb-3" id="profile-avatar">
+                        <h5 id="user-name">John Doe</h5>
+                        <p class="text-muted mb-0" id="user-email">john.doe@example.com</p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="#profile-info" class="sidebar-link active">
+                            <i class="fas fa-user"></i> Personal Information
+                        </a>
+                        <a href="#medical-info" class="sidebar-link">
+                            <i class="fas fa-notes-medical"></i> Medical Information
+                        </a>
+                        <a href="#account-settings" class="sidebar-link">
+                            <i class="fas fa-cog"></i> Account Settings
+                        </a>
+                        <a href="#" class="sidebar-link logout-btn" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Main Content -->
+            <div class="col-md-9">
+                <!-- Alert for success/error messages -->
+                <div class="alert alert-success alert-box" id="success-alert">
+                    <i class="fas fa-check-circle me-2"></i> <span id="success-message"></span>
+                </div>
+                <div class="alert alert-danger alert-box" id="error-alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> <span id="error-message"></span>
+                </div>
+                
+                <!-- Personal Information Section -->
+                <div class="profile-section" id="profile-info">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="section-title">Personal Information</h3>
+                        <button class="btn btn-edit" id="edit-profile-btn">
+                            <i class="fas fa-pencil-alt me-2"></i> Edit
+                        </button>
+                    </div>
+                    
+                    <form id="profile-form">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="family-name" class="form-label">Family Name</label>
+                                <input type="text" class="form-control" id="family-name" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="profession" class="form-label">Profession</label>
+                                <input type="text" class="form-control" id="profession" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dob" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="dob" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">User Type</label>
+                                <p class="form-control-static" id="user-type"></p>
+                            </div>
+                        </div>
+                        
+                        <div class="text-end" id="profile-buttons" style="display: none;">
+                            <button type="button" class="btn btn-outline-secondary me-2" id="cancel-profile-btn">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Medical Information Section -->
+                <div class="profile-section" id="medical-info">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="section-title">Medical Information</h3>
+                        <button class="btn btn-edit" id="edit-medical-btn">
+                            <i class="fas fa-pencil-alt me-2"></i> Edit
+                        </button>
+                    </div>
+                    
+                    <form id="medical-form">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="blood-type" class="form-label">Blood Type</label>
+                                <select class="form-select" id="blood-type" disabled>
+                                    <option value="">Select</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <option value="unknown">Unknown</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="weight" class="form-label">Weight (kg)</label>
+                                <input type="number" class="form-control" id="weight" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="height" class="form-label">Height (cm)</label>
+                                <input type="number" class="form-control" id="height" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="primary-doctor" class="form-label">Primary Doctor</label>
+                                <input type="text" class="form-control" id="primary-doctor" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="allergies" class="form-label">Allergies</label>
+                            <textarea class="form-control" id="allergies" rows="2" disabled></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="medical-conditions" class="form-label">Medical Conditions</label>
+                            <textarea class="form-control" id="medical-conditions" rows="2" disabled></textarea>
+                        </div>
+                        
+                        <div class="text-end" id="medical-buttons" style="display: none;">
+                            <button type="button" class="btn btn-outline-secondary me-2" id="cancel-medical-btn">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="save-medical-btn">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Account Settings Section -->
+                <div class="profile-section" id="account-settings">
+                    <h3 class="section-title">Account Settings</h3>
+                    
+                    <div class="mb-4">
+                        <h5>Change Password</h5>
+                        <form id="password-form">
+                            <div class="mb-3">
+                                <label for="current-password" class="form-label">Current Password</label>
+                                <input type="password" class="form-control" id="current-password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="new-password" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="new-password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirm-password" class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirm-password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </form>
+                    </div>
+                    <div>
+                        <h5 class="text-danger">Delete Account</h5>
+                        <p class="text-muted">Once you delete your account, there is no going back. Please be certain.</p>
+                        <button class="btn btn-primary" id="delete-account-btn">Delete My Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out of your account?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you absolutely sure you want to delete your account? This action cannot be undone.</p>
+                    <div class="mb-3">
+                        <label for="delete-confirmation" class="form-label">Type "DELETE" to confirm:</label>
+                        <input type="text" class="form-control" id="delete-confirmation" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete" disabled>Delete Forever</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../scripts/profile.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Edit profile information
+            const editProfileBtn = document.getElementById('edit-profile-btn');
+            const cancelProfileBtn = document.getElementById('cancel-profile-btn');
+            const profileForm = document.getElementById('profile-form');
+            const profileButtons = document.getElementById('profile-buttons');
+            
+            editProfileBtn.addEventListener('click', function() {
+                const inputs = profileForm.querySelectorAll('input, select');
+                inputs.forEach(input => input.disabled = false);
+                profileButtons.style.display = 'block';
+                editProfileBtn.style.display = 'none';
+            });
+            
+            cancelProfileBtn.addEventListener('click', function() {
+                const inputs = profileForm.querySelectorAll('input, select');
+                inputs.forEach(input => input.disabled = true);
+                profileButtons.style.display = 'none';
+                editProfileBtn.style.display = 'block';
+            });
+            
+            profileForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Here you would normally send the data to the server
+                
+                // Show success message
+                const successAlert = document.getElementById('success-alert');
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = 'Personal information updated successfully!';
+                successAlert.style.display = 'block';
+                
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+                
+                // Disable form fields
+                const inputs = profileForm.querySelectorAll('input, select');
+                inputs.forEach(input => input.disabled = true);
+                profileButtons.style.display = 'none';
+                editProfileBtn.style.display = 'block';
+                
+                // Update the display name
+                const firstName = document.getElementById('first-name').value;
+                const lastName = document.getElementById('last-name').value;
+                document.getElementById('user-name').textContent = `${firstName} ${lastName}`;
+                document.getElementById('user-email').textContent = document.getElementById('email').value;
+            });
+            
+            // Edit medical information
+            const editMedicalBtn = document.getElementById('edit-medical-btn');
+            const cancelMedicalBtn = document.getElementById('cancel-medical-btn');
+            const medicalForm = document.getElementById('medical-form');
+            const medicalButtons = document.getElementById('medical-buttons');
+            
+            editMedicalBtn.addEventListener('click', function() {
+                const inputs = medicalForm.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => input.disabled = false);
+                medicalButtons.style.display = 'block';
+                editMedicalBtn.style.display = 'none';
+            });
+            
+            cancelMedicalBtn.addEventListener('click', function() {
+                const inputs = medicalForm.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => input.disabled = true);
+                medicalButtons.style.display = 'none';
+                editMedicalBtn.style.display = 'block';
+            });
+            
+            medicalForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Here you would normally send the data to the server
+                
+                // Show success message
+                const successAlert = document.getElementById('success-alert');
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = 'Medical information updated successfully!';
+                successAlert.style.display = 'block';
+                
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+                
+                // Disable form fields
+                const inputs = medicalForm.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => input.disabled = true);
+                medicalButtons.style.display = 'none';
+                editMedicalBtn.style.display = 'block';
+            });
+            
+            // Password form
+            document.getElementById('password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const currentPassword = document.getElementById('current-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                if (newPassword !== confirmPassword) {
+                    const errorAlert = document.getElementById('error-alert');
+                    const errorMessage = document.getElementById('error-message');
+                    errorMessage.textContent = 'New passwords do not match!';
+                    errorAlert.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+                
+                // Here you would normally verify and update the password on the server
+                
+                // Show success message
+                const successAlert = document.getElementById('success-alert');
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = 'Password updated successfully!';
+                successAlert.style.display = 'block';
+                
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+                
+                // Reset form
+                this.reset();
+            });
+            
+            // Notifications form
+            document.getElementById('notifications-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Here you would normally save the preferences to the server
+                
+                // Show success message
+                const successAlert = document.getElementById('success-alert');
+                const successMessage = document.getElementById('success-message');
+                successMessage.textContent = 'Notification preferences saved!';
+                successAlert.style.display = 'block';
+                
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            });
+            
+            // Logout functionality
+            const logoutBtn = document.getElementById('logout-btn');
+            const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+            const confirmLogout = document.getElementById('confirm-logout');
+            
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                logoutModal.show();
+            });
+            
+            confirmLogout.addEventListener('click', function() {
+                // Here you would normally handle the logout process
+                
+                // For now, just redirect to a login page
+                window.location.href = 'index.html';
+            });
+            
+            // Delete account functionality
+            const deleteAccountBtn = document.getElementById('delete-account-btn');
+            const deleteAccountModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+            const confirmDelete = document.getElementById('confirm-delete');
+            const deleteConfirmation = document.getElementById('delete-confirmation');
+            
+            deleteAccountBtn.addEventListener('click', function() {
+                deleteAccountModal.show();
+            });
+            
+            deleteConfirmation.addEventListener('input', function() {
+                confirmDelete.disabled = this.value !== 'DELETE';
+            });
+            
+            confirmDelete.addEventListener('click', function() {
+                // Here you would normally handle the account deletion process
+                
+                // For now, just redirect to a login page
+                window.location.href = 'index.html';
+            });
+            
+            // Sidebar navigation
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            
+            sidebarLinks.forEach(link => {
+                if (!link.classList.contains('logout-btn')) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Remove active class from all links
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        
+                        // Add active class to clicked link
+                        this.classList.add('active');
+                        
+                        // Scroll to section
+                        const targetId = this.getAttribute('href').substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

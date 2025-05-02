@@ -1,0 +1,12 @@
+Raw Input: {"email":"Flen@Fouleni.com","password":"flen"}
+
+Decoded Data: Array
+(
+    [email] => Flen@Fouleni.com
+    [password] => flen
+)
+
+
+POST Data: Array
+(
+)
